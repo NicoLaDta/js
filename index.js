@@ -42,6 +42,10 @@ setTimeout(() => {
   const button = document.querySelector('.see-more')
   const button2 = document.querySelector('.see-less')
   const feed = document.querySelector('.feed')
+  const h1 = document.querySelector('h1')
+
+  h1.style.textAlign = 'center'
+  h1.style.fontFamily = 'Fantasy'
 
   const createParagraph = (parent) =>{
       const p = document.createElement('p')
