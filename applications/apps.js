@@ -32,6 +32,9 @@ class Application {
          */
         this.dom.circle.addEventListener('mouseenter', this.onMouseEnter)
         this.dom.circle.addEventListener('mouseleave', this.onMouseLeave)
+
+        window.addListeners('resize', this.resize)
+
         document.addEventListener('keydown', this.onKeyDown)
     }
 
@@ -78,6 +81,12 @@ class Application {
             duration: 2.5,
             ease: Elastic.easeOut.config(1, 0.3)
         })
+    }
+
+    resize = (e) => {
+        console.log('resize', window.innerWidth)
+        this.screen.width = window.innerWidth
+        this.screen.height = window.innerHeight
     }
 
     setRandomColor() {
