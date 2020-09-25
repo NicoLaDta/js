@@ -6,6 +6,7 @@ class Application {
             x: 0,
             y: 0
         };
+        
         this.screen = {
             width: window.innerWidth,
             height: window.innerHeight
@@ -13,6 +14,11 @@ class Application {
 
         this.dom = {
             circle: document.querySelector('.circle')
+        }
+
+        this.size = {
+            circleWidth: this.dom.circle.offsetWidth,
+            circleHeight: this.dom.circle.offsetHeight
         }
 
         this.addListeners()
@@ -33,7 +39,8 @@ class Application {
         this.dom.circle.addEventListener('mouseenter', this.onMouseEnter)
         this.dom.circle.addEventListener('mouseleave', this.onMouseLeave)
 
-        window.addListeners('resize', this.resize)
+        window.addEventListener('resize', this.resize)
+        window.addEventListener('mousemove', this.MouseMouv)
 
         document.addEventListener('keydown', this.onKeyDown)
     }
@@ -56,7 +63,7 @@ class Application {
 
     droite() {
         this.position.x+=100
-        const maxX = (this.screen.width - this.dom.circle.offsetWidth)
+        const maxX = (this.screen.width - this.size.circleWidth)
         this.position.x = Math.min(this.position.x, maxX)
     }
 
@@ -68,12 +75,12 @@ class Application {
 
     bas() {
         this.position.y+=100
-        const maxY = (this.screen.height - this.dom.circle.offsetHeight)
+        const maxY = (this.screen.height - this.size.circleHeight)
         this.position.y = Math.min(this.position.y, maxY)
 
     }
     move(){
-        this.dom.circle.style.transform=`translate(${this.position.x}px,${this.position.y}px)`
+        //this.dom.circle.style.transform=`translate(${this.position.x}px,${this.position.y}px)`
 
         gsap.to(this.dom.circle, {
             x: this.position.x,
@@ -87,6 +94,11 @@ class Application {
         console.log('resize', window.innerWidth)
         this.screen.width = window.innerWidth
         this.screen.height = window.innerHeight
+
+        this.size = {
+            circleWidth: this.dom.circle.offsetWidth,
+            circleHeight: this.dom.circle.offsetHeight
+        }
     }
 
     setRandomColor() {
@@ -101,6 +113,16 @@ class Application {
         this.dom.circle.style.backgroundColor = ''
     }
 
+    MouseMouv = (e) => {
+        const cursorX = e.clientX - (this.size.circleWidth/2)
+        const cursorY = e.clientY - (this.size.circleHeight/2)
+        this.position.x=cursorX
+        this.position.y=cursorY
+        
+        this.move()
+        console.log(cursorX, cursorY)
+    }
+    
     onMouseEnter = (e) => {
         console.log('circle enter')
         this.setRandomColor()
